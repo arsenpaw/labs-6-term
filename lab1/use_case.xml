@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36" version="29.6.0">
+  <diagram name="Registration and Purchase" id="69URmlUV55ZDdF5J9S0e">
+    <mxGraphModel dx="1603" dy="811" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="kZ-Dmrdf7PAem9e900kI-42" parent="1" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" value="User" vertex="1">
+          <mxGeometry height="60" width="30" x="60" y="280" as="geometry" />
+        </mxCell>
+        <mxCell id="kZ-Dmrdf7PAem9e900kI-43" parent="1" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" value="Payment Provider&lt;div&gt;&lt;br&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="60" width="30" x="760" y="455" as="geometry" />
+        </mxCell>
+        <mxCell id="kZ-Dmrdf7PAem9e900kI-44" parent="1" style="swimlane;whiteSpace=wrap;html=1;startSize=23;" value="Gaming Platform" vertex="1">
+          <mxGeometry height="650" width="500" x="200" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="kZ-Dmrdf7PAem9e900kI-45" parent="kZ-Dmrdf7PAem9e900kI-44" style="ellipse;whiteSpace=wrap;html=1;fillColor=none;strokeColor=default;" value="Register Account" vertex="1">
+          <mxGeometry height="60" width="160" x="140" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="kZ-Dmrdf7PAem9e900kI-46" parent="kZ-Dmrdf7PAem9e900kI-44" style="ellipse;whiteSpace=wrap;html=1;fillColor=none;strokeColor=default;" value="Login" vertex="1">
+          <mxGeometry height="60" width="160" x="140" y="110" as="geometry" />
+        </mxCell>
+        <mxCell id="kZ-Dmrdf7PAem9e900kI-47" edge="1" parent="kZ-Dmrdf7PAem9e900kI-44" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="kZ-Dmrdf7PAem9e900kI-49">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="169.99999999999864" y="240" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="kZ-Dmrdf7PAem9e900kI-48" edge="1" parent="kZ-Dmrdf7PAem9e900kI-44" source="kZ-Dmrdf7PAem9e900kI-49" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" target="kZ-Dmrdf7PAem9e900kI-52">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="kZ-Dmrdf7PAem9e900kI-49" parent="kZ-Dmrdf7PAem9e900kI-44" style="ellipse;whiteSpace=wrap;html=1;" value="View Game Details" vertex="1">
+          <mxGeometry height="60" width="140" x="340" y="210" as="geometry" />
+        </mxCell>
+        <mxCell id="kZ-Dmrdf7PAem9e900kI-50" edge="1" parent="kZ-Dmrdf7PAem9e900kI-44" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="kZ-Dmrdf7PAem9e900kI-53">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="215" y="500" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="kZ-Dmrdf7PAem9e900kI-51" edge="1" parent="kZ-Dmrdf7PAem9e900kI-44" source="kZ-Dmrdf7PAem9e900kI-52" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="239.85185185185173" y="499.9999999999999" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="kZ-Dmrdf7PAem9e900kI-52" parent="kZ-Dmrdf7PAem9e900kI-44" style="ellipse;whiteSpace=wrap;html=1;fillColor=none;strokeColor=default;" value="Purchase Game" vertex="1">
+          <mxGeometry height="60" width="160" x="160" y="410" as="geometry" />
+        </mxCell>
+        <mxCell id="kZ-Dmrdf7PAem9e900kI-53" parent="kZ-Dmrdf7PAem9e900kI-44" style="ellipse;whiteSpace=wrap;html=1;" value="Process Transaction" vertex="1">
+          <mxGeometry height="50" width="140" x="265" y="540" as="geometry" />
+        </mxCell>
+        <mxCell id="kZ-Dmrdf7PAem9e900kI-55" parent="kZ-Dmrdf7PAem9e900kI-44" style="ellipse;whiteSpace=wrap;html=1;fillColor=none;strokeColor=light-dark(#82B366,#FFFFFF);" value="Play game" vertex="1">
+          <mxGeometry height="70" width="150" x="35" y="540" as="geometry" />
+        </mxCell>
+        <mxCell id="kZ-Dmrdf7PAem9e900kI-57" edge="1" parent="kZ-Dmrdf7PAem9e900kI-44" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.592;entryY=-0.016;entryDx=0;entryDy=0;entryPerimeter=0;" target="kZ-Dmrdf7PAem9e900kI-55">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="215" y="500" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="kZ-Dmrdf7PAem9e900kI-58" parent="kZ-Dmrdf7PAem9e900kI-44" style="ellipse;whiteSpace=wrap;html=1;" value="&lt;div&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;Search &amp;amp; Explore&lt;/span&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="50" width="140" x="30" y="215" as="geometry" />
+        </mxCell>
+        <mxCell id="kZ-Dmrdf7PAem9e900kI-59" edge="1" parent="1" source="kZ-Dmrdf7PAem9e900kI-42" style="edgeStyle=none;html=1;endArrow=none;" target="kZ-Dmrdf7PAem9e900kI-45">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="kZ-Dmrdf7PAem9e900kI-60" edge="1" parent="1" source="kZ-Dmrdf7PAem9e900kI-42" style="edgeStyle=none;html=1;endArrow=none;" target="kZ-Dmrdf7PAem9e900kI-46">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="kZ-Dmrdf7PAem9e900kI-61" edge="1" parent="1" source="kZ-Dmrdf7PAem9e900kI-42" style="edgeStyle=none;html=1;endArrow=none;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="233.1093378392385" y="288.8418691361926" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="kZ-Dmrdf7PAem9e900kI-62" edge="1" parent="1" source="kZ-Dmrdf7PAem9e900kI-42" style="edgeStyle=none;html=1;endArrow=none;" target="kZ-Dmrdf7PAem9e900kI-52">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="kZ-Dmrdf7PAem9e900kI-63" edge="1" parent="1" source="kZ-Dmrdf7PAem9e900kI-42" style="edgeStyle=none;html=1;endArrow=none;" target="kZ-Dmrdf7PAem9e900kI-55">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="kZ-Dmrdf7PAem9e900kI-64" edge="1" parent="1" source="kZ-Dmrdf7PAem9e900kI-53" style="edgeStyle=none;html=1;endArrow=none;" target="kZ-Dmrdf7PAem9e900kI-43">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
