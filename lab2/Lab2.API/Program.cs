@@ -1,49 +1,42 @@
-﻿using System.Text;
-using Lab2.Repositories;
+﻿using Lab2.Abstractions;
+using Lab2.Data;
+using Lab2.Infrastructure;
 using Lab2.Services;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi;
+
 var builder = WebApplication.CreateBuilder(args);
+
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(options =>
-{
-    options.SwaggerDoc("v1", new OpenApiInfo { Title = "Lab2 API", Version = "v1" });
-    options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-    {
-        Name = "Authorization",
-        Type = SecuritySchemeType.Http,
-        Scheme = "Bearer",
-        BearerFormat = "JWT",
-        In = ParameterLocation.Header,
-        Description = "Enter your JWT token."
-    });
-});
-var jwtSettings = builder.Configuration.GetSection("JwtSettings");
-var secretKey = jwtSettings["SecretKey"]!;
-builder.Services.AddAuthentication(options =>
-{
-    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-})
-.AddJwtBearer(options =>
-{
-    options.TokenValidationParameters = new TokenValidationParameters
-    {
-        ValidateIssuer = true,
-        ValidateAudience = true,
-        ValidateLifetime = true,
-        ValidateIssuerSigningKey = true,
-        ValidIssuer = jwtSettings["Issuer"],
-        ValidAudience = jwtSettings["Audience"],
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey))
-    };
-});
-builder.Services.AddAuthorization();
-builder.Services.AddSingleton<IUserRepository, UserRepository>();
+builder.Services.AddSwaggerGen(c =>
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Lab2 API", Version = "v1" }));
+
+builder.Services.AddSingleton<AuditInterceptor>();
+builder.Services.AddScoped<IUnitOfWork, EfUnitOfWork>();
+
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IGameService, GameService>();
+builder.Services.AddScoped<IGameSessionService, GameSessionService>();
+builder.Services.AddScoped<ISessionLogService, SessionLogService>();
+builder.Services.AddDbContext<AppDbContext>((sp, opt) =>
+    opt.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
+       .AddInterceptors(sp.GetRequiredService<AuditInterceptor>()));
+
 var app = builder.Build();
+
+using var scope = app.Services.CreateScope();
+var services = scope.ServiceProvider;
+using var appContext = services.GetRequiredService<AppDbContext>();
+try
+{
+    appContext.Database.Migrate();
+}
+catch (Exception ex)
+{
+    var writer = Console.Error;
+    writer.WriteLine(ex);
+}
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -53,9 +46,8 @@ if (app.Environment.IsDevelopment())
         c.RoutePrefix = string.Empty;
     });
 }
+
 app.UseMiddleware<Lab2.Middleware.ErrorHandlingMiddleware>();
 app.UseHttpsRedirection();
-app.UseAuthentication();
-app.UseAuthorization();
 app.MapControllers();
 app.Run();

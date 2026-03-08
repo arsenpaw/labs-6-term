@@ -5,42 +5,40 @@ using Microsoft.AspNetCore.Mvc;
 namespace Lab2.Controllers;
 
 [ApiController]
-[Route("api/users")]
+[Route("api/games")]
 [Produces("application/json")]
-public class UsersController(IUserService userService) : ControllerBase
+public class GamesController(IGameService gameService) : ControllerBase
 {
     [HttpGet]
-    [ProducesResponseType(typeof(IEnumerable<UserDto>), StatusCodes.Status200OK)]
-    public async Task<IActionResult> GetAll() => Ok(await userService.GetAllAsync());
+    [ProducesResponseType(typeof(IEnumerable<GameDto>), StatusCodes.Status200OK)]
+    public async Task<IActionResult> GetAll() => Ok(await gameService.GetAllGamesAsync());
 
     [HttpGet("{id:guid}")]
-    [ProducesResponseType(typeof(UserDto), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(GameDto), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> GetById(Guid id)
     {
-        var user = await userService.GetByIdAsync(id);
-        return user is null ? NotFound() : Ok(user);
+        var game = await gameService.GetGameByIdAsync(id);
+        return game is null ? NotFound() : Ok(game);
     }
 
     [HttpPost]
-    [ProducesResponseType(typeof(UserDto), StatusCodes.Status201Created)]
+    [ProducesResponseType(typeof(GameDto), StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status409Conflict)]
-    public async Task<IActionResult> Create([FromBody] CreateUserDto dto)
+    public async Task<IActionResult> Create([FromBody] CreateGameDto dto)
     {
         if (!ModelState.IsValid) return ValidationProblem(ModelState);
-        var created = await userService.CreateAsync(dto);
+        var created = await gameService.CreateGameAsync(dto);
         return CreatedAtAction(nameof(GetById), new { id = created.Id }, created);
     }
 
     [HttpPut("{id:guid}")]
-    [ProducesResponseType(typeof(UserDto), StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(GameDto), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> Update(Guid id, [FromBody] UpdateUserDto dto)
+    public async Task<IActionResult> Update(Guid id, [FromBody] UpdateGameDto dto)
     {
         if (!ModelState.IsValid) return ValidationProblem(ModelState);
-        var result = await userService.UpdateAsync(id, dto);
+        var result = await gameService.UpdateGameAsync(id, dto);
         return result is null ? NotFound() : Ok(result);
     }
 
@@ -49,7 +47,7 @@ public class UsersController(IUserService userService) : ControllerBase
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> Delete(Guid id)
     {
-        var deleted = await userService.DeleteAsync(id);
+        var deleted = await gameService.DeleteGameAsync(id);
         return deleted ? NoContent() : NotFound();
     }
 }

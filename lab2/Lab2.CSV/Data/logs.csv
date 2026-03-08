@@ -1,0 +1,8 @@
+﻿SessionIndex,EventType,SeverityLevel,IpAddress,LatencyMs,StateSnapshot
+0,LevelUp,Info,192.168.1.1,12,"{""level"":3}"
+0,ItemPickup,Debug,192.168.1.1,8,
+1,GameOver,Info,10.0.0.5,5,"{""score"":9800}"
+2,Disconnect,Warning,172.16.0.10,300,
+3,Error,Error,203.0.113.42,999,"{""error"":""NullRef""}"
+4,SessionStart,Info,198.51.100.7,15,
+

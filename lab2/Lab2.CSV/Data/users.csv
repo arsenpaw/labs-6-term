@@ -1,0 +1,7 @@
+﻿Username,Email,Password,RegionCode,IsVerified
+alice,alice@example.com,pass1,US,true
+bob,bob@example.com,pass2,GB,false
+charlie,charlie@example.com,pass3,DE,true
+diana,diana@example.com,pass4,FR,false
+eve,eve@example.com,pass5,JP,true
+
