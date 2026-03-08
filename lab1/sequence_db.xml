@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36" version="29.6.0">
+  <diagram name="Sequence: Session State Recording" id="soGdmbBAKLcMz2Pe8_rB">
+    <mxGraphModel dx="485" dy="245" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="C0xWF2Y51ivWcaSy0s8b-1" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;outlineConnect=0;fillColor=#ffffff;" value="Player" vertex="1">
+          <mxGeometry height="600" width="100" x="40" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="C0xWF2Y51ivWcaSy0s8b-2" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;outlineConnect=0;fillColor=#ffffff;" value="Game Client&#xa;(UI &amp; Logic)" vertex="1">
+          <mxGeometry height="600" width="100" x="200" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="C0xWF2Y51ivWcaSy0s8b-5" edge="1" parent="C0xWF2Y51ivWcaSy0s8b-2" style="html=1;verticalAlign=bottom;endArrow=block;entryX=0.5;entryY=0.01;entryDx=0;entryDy=0;entryPerimeter=0;" value="Start Game">
+          <mxGeometry relative="1" x="-0.1508" y="17" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="-30" y="90" />
+              <mxPoint x="50" y="74" />
+            </Array>
+            <mxPoint x="-109.877358490566" y="94" as="sourcePoint" />
+            <mxPoint x="50" y="40" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="C0xWF2Y51ivWcaSy0s8b-3" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;outlineConnect=0;fillColor=#ffffff;" value="Backend API&#xa;(Session Manager)" vertex="1">
+          <mxGeometry height="600" width="120" x="360" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="C0xWF2Y51ivWcaSy0s8b-4" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;outlineConnect=0;fillColor=#ffffff;" value="Database" vertex="1">
+          <mxGeometry height="600" width="100" x="540" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="C0xWF2Y51ivWcaSy0s8b-6" edge="1" parent="1" source="C0xWF2Y51ivWcaSy0s8b-2" style="html=1;verticalAlign=bottom;endArrow=block;" target="C0xWF2Y51ivWcaSy0s8b-3" value="POST /session/start">
+          <mxGeometry relative="1" x="-0.125" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="310" y="130" />
+            </Array>
+            <mxPoint x="250" y="130" as="sourcePoint" />
+            <mxPoint x="410" y="130" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="C0xWF2Y51ivWcaSy0s8b-7" edge="1" parent="1" source="C0xWF2Y51ivWcaSy0s8b-3" style="html=1;verticalAlign=bottom;endArrow=block;" target="C0xWF2Y51ivWcaSy0s8b-4" value="INSERT INTO GameSession&#xa;(status=&#39;active&#39;)">
+          <mxGeometry relative="1" x="-0.1667" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="480" y="160" />
+            </Array>
+            <mxPoint x="420" y="160" as="sourcePoint" />
+            <mxPoint x="580" y="160" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="C0xWF2Y51ivWcaSy0s8b-8" edge="1" parent="1" source="C0xWF2Y51ivWcaSy0s8b-3" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;" target="C0xWF2Y51ivWcaSy0s8b-2" value="201 Created (SessionID)">
+          <mxGeometry relative="1" x="0.125" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="330" y="190" />
+            </Array>
+            <mxPoint x="410" y="190" as="sourcePoint" />
+            <mxPoint x="250" y="190" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="C0xWF2Y51ivWcaSy0s8b-9" parent="1" style="shape=umlFrame;whiteSpace=wrap;html=1;width=60;height=30;fillColor=#ffffff;" value="loop" vertex="1">
+          <mxGeometry height="200" width="460" x="160" y="230" as="geometry" />
+        </mxCell>
+        <mxCell id="C0xWF2Y51ivWcaSy0s8b-10" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontStyle=1" value="[Every 60 Seconds]" vertex="1">
+          <mxGeometry height="30" width="130" x="240" y="230" as="geometry" />
+        </mxCell>
+        <mxCell id="C0xWF2Y51ivWcaSy0s8b-11" edge="1" parent="1" source="C0xWF2Y51ivWcaSy0s8b-2" style="html=1;verticalAlign=bottom;endArrow=block;curved=1;" target="C0xWF2Y51ivWcaSy0s8b-2" value="Collect Local State">
+          <mxGeometry relative="1" x="0.0667" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="280" y="270" />
+              <mxPoint x="280" y="300" />
+            </Array>
+            <mxPoint x="250" y="270" as="sourcePoint" />
+            <mxPoint x="250" y="300" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="C0xWF2Y51ivWcaSy0s8b-12" edge="1" parent="1" source="C0xWF2Y51ivWcaSy0s8b-2" style="html=1;verticalAlign=bottom;endArrow=block;" target="C0xWF2Y51ivWcaSy0s8b-3" value="PUT /session/{id}/state&amp;nbsp;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="330" y="330" />
+            </Array>
+            <mxPoint x="250" y="330" as="sourcePoint" />
+            <mxPoint x="420" y="330" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="C0xWF2Y51ivWcaSy0s8b-13" edge="1" parent="1" source="C0xWF2Y51ivWcaSy0s8b-3" style="html=1;verticalAlign=bottom;endArrow=block;" target="C0xWF2Y51ivWcaSy0s8b-4" value="INSERT INTO SessionLog">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="500" y="360" />
+            </Array>
+            <mxPoint x="420" y="360" as="sourcePoint" />
+            <mxPoint x="590" y="360" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="C0xWF2Y51ivWcaSy0s8b-14" edge="1" parent="1" source="C0xWF2Y51ivWcaSy0s8b-3" style="html=1;verticalAlign=bottom;endArrow=block;" target="C0xWF2Y51ivWcaSy0s8b-4" value="UPDATE GameSession (current_state)">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="500" y="390" />
+            </Array>
+            <mxPoint x="420" y="390" as="sourcePoint" />
+            <mxPoint x="590" y="390" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="C0xWF2Y51ivWcaSy0s8b-15" edge="1" parent="1" source="C0xWF2Y51ivWcaSy0s8b-1" style="html=1;verticalAlign=bottom;endArrow=block;" target="C0xWF2Y51ivWcaSy0s8b-2" value="Quit Game">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="160" y="480" />
+            </Array>
+            <mxPoint x="90" y="480" as="sourcePoint" />
+            <mxPoint x="250" y="480" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="C0xWF2Y51ivWcaSy0s8b-16" edge="1" parent="1" source="C0xWF2Y51ivWcaSy0s8b-2" style="html=1;verticalAlign=bottom;endArrow=block;" target="C0xWF2Y51ivWcaSy0s8b-3" value="POST /session/end">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="330" y="510" />
+            </Array>
+            <mxPoint x="250" y="510" as="sourcePoint" />
+            <mxPoint x="420" y="510" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="C0xWF2Y51ivWcaSy0s8b-17" edge="1" parent="1" source="C0xWF2Y51ivWcaSy0s8b-3" style="html=1;verticalAlign=bottom;endArrow=block;" target="C0xWF2Y51ivWcaSy0s8b-4" value="UPDATE GameSession&#xa;(status=&#39;completed&#39;, ended_at=now)">
+          <mxGeometry relative="1" x="-0.3333" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="500" y="540" />
+            </Array>
+            <mxPoint x="420" y="540" as="sourcePoint" />
+            <mxPoint x="590" y="540" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="C0xWF2Y51ivWcaSy0s8b-18" edge="1" parent="1" source="C0xWF2Y51ivWcaSy0s8b-3" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;" target="C0xWF2Y51ivWcaSy0s8b-2" value="200 OK">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="330" y="570" />
+            </Array>
+            <mxPoint x="420" y="570" as="sourcePoint" />
+            <mxPoint x="250" y="570" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
