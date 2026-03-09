@@ -133,7 +133,7 @@ using (var csv = OpenCsv(ResolveCsv("data.csv")))
             }
             case "Log":
             {
-                var sessionIdx = csv.GetField<int>(23);
+                var sessionIdx = csv.GetField<int>("SessionIndex");
                 var snapshotRaw = csv.GetField<string>("StateSnapshot");
                 JsonDocument? snapshot = snapshotRaw is { Length: > 0 }
                     ? JsonDocument.Parse(snapshotRaw)
@@ -142,10 +142,10 @@ using (var csv = OpenCsv(ResolveCsv("data.csv")))
                 {
                     Id = Guid.NewGuid(),
                     SessionId = sessions[sessionIdx].Id,
-                    EventType = csv.GetField<string>(24),
-                    SeverityLevel = csv.GetField<string>(25),
-                    IpAddress = csv.GetField<string>(26),
-                    LatencyMs = csv.GetField<int?>(27),
+                    EventType = csv.GetField<string>("EventType"),
+                    SeverityLevel = csv.GetField<string>("SeverityLevel"),
+                    IpAddress = csv.GetField<string>("IpAddress"),
+                    LatencyMs = csv.GetField<int?>("LatencyMs"),
                     StateSnapshot = snapshot,
                     CreatedAt = DateTime.UtcNow,
                     UpdatedAt = DateTime.UtcNow
