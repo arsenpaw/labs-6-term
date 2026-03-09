@@ -1,100 +1,67 @@
-﻿using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
+using Lab2.Abstractions;
 using Lab2.DTOs;
 using Lab2.Models;
-using Lab2.Repositories;
-using Microsoft.IdentityModel.Tokens;
 namespace Lab2.Services;
-public class UserService : IUserService
+public class UserService(IUnitOfWork uow) : IUserService
 {
-    private readonly IUserRepository _userRepository;
-    private readonly IConfiguration _configuration;
-    public UserService(IUserRepository userRepository, IConfiguration configuration)
+    public async Task<IEnumerable<UserDto>> GetAllAsync()
+        => (await uow.Users.GetAllAsync()).Select(ToDto);
+    public async Task<UserDto?> GetByIdAsync(Guid id)
     {
-        _userRepository = userRepository;
-        _configuration = configuration;
+        var user = await uow.Users.GetByIdAsync((id));
+        return user is null ? null : ToDto(user);
     }
-    public async Task<IEnumerable<UserDto>> GetAllUsersAsync()
+    public async Task<UserDto> CreateAsync(CreateUserDto dto)
     {
-        var users = await _userRepository.GetAllAsync();
-        return users.Select(u => new UserDto
-        {
-            Id = u.Id,
-            Username = u.Username,
-            Email = u.Email,
-            CreatedAt = u.CreatedAt
-        });
-    }
-    public async Task<UserDto?> GetUserByIdAsync(Guid id)
-    {
-        var user = await _userRepository.GetByIdAsync(id);
-        if (user is null) return null;
-        return new UserDto { Id = user.Id, Username = user.Username, Email = user.Email, CreatedAt = user.CreatedAt };
-    }
-    public async Task<AuthResponseDto> RegisterAsync(RegisterDto dto)
-    {
-        if (await _userRepository.ExistsByEmailAsync(dto.Email))
+        if (await uow.Users.ExistsByEmailAsync(dto.Email))
             throw new InvalidOperationException("Email already in use.");
-        if (await _userRepository.ExistsByUsernameAsync(dto.Username))
+        if (await uow.Users.ExistsByUsernameAsync(dto.Username))
             throw new InvalidOperationException("Username already taken.");
         var user = new User
         {
+            Id = Guid.NewGuid(),
             Username = dto.Username,
             Email = dto.Email,
-            PasswordHash = BCrypt.Net.BCrypt.HashPassword(dto.Password)
+            PasswordHash = BCrypt.Net.BCrypt.HashPassword(dto.Password),
+            RegionCode = dto.RegionCode,
+            AvatarUrl = dto.AvatarUrl
         };
-        var created = await _userRepository.CreateAsync(user);
-        return new AuthResponseDto
-        {
-            Token = GenerateJwtToken(created),
-            Username = created.Username,
-            Email = created.Email
-        };
+        await uow.Users.AddAsync(user);
+        await uow.SaveChangesAsync();
+        return ToDto(user);
     }
-    public async Task<AuthResponseDto> LoginAsync(LoginDto dto)
+    public async Task<UserDto?> UpdateAsync(Guid id, UpdateUserDto dto)
     {
-        var user = await _userRepository.GetByEmailAsync(dto.Email)
-                   ?? throw new UnauthorizedAccessException("Invalid credentials.");
-        if (!BCrypt.Net.BCrypt.Verify(dto.Password, user.PasswordHash))
-            throw new UnauthorizedAccessException("Invalid credentials.");
-        return new AuthResponseDto
-        {
-            Token = GenerateJwtToken(user),
-            Username = user.Username,
-            Email = user.Email
-        };
+        var existing = await uow.Users.GetByIdAsync(id);
+        if (existing is null) return null;
+
+        existing.Username = dto.Username;
+        existing.Email = dto.Email;
+        if (!string.IsNullOrWhiteSpace(dto.Password))
+            existing.PasswordHash = BCrypt.Net.BCrypt.HashPassword(dto.Password);
+        existing.RegionCode = dto.RegionCode;
+        existing.AvatarUrl = dto.AvatarUrl;
+        existing.IsVerified = dto.IsVerified;
+
+        await uow.Users.UpdateAsync(id, existing);
+        await uow.SaveChangesAsync();
+        return ToDto(existing);
     }
-    public async Task<UserDto?> UpdateUserAsync(Guid id, RegisterDto dto)
+    public async Task<bool> DeleteAsync(Guid id)
     {
-        var updated = new User
-        {
-            Username = dto.Username,
-            Email = dto.Email,
-            PasswordHash = BCrypt.Net.BCrypt.HashPassword(dto.Password)
-        };
-        var result = await _userRepository.UpdateAsync(id, updated);
-        if (result is null) return null;
-        return new UserDto { Id = result.Id, Username = result.Username, Email = result.Email, CreatedAt = result.CreatedAt };
+        var deleted = await uow.Users.DeleteAsync((id));
+        if (deleted) await uow.SaveChangesAsync();
+        return deleted;
     }
-    public Task<bool> DeleteUserAsync(Guid id) => _userRepository.DeleteAsync(id);
-    private string GenerateJwtToken(User user)
+    private static UserDto ToDto(User u) => new()
     {
-        var jwtSettings = _configuration.GetSection("JwtSettings");
-        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings["SecretKey"]!));
-        var claims = new[]
-        {
-            new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
-            new Claim(JwtRegisteredClaimNames.Email, user.Email),
-            new Claim(ClaimTypes.Name, user.Username),
-            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
-        };
-        var token = new JwtSecurityToken(
-            issuer: jwtSettings["Issuer"],
-            audience: jwtSettings["Audience"],
-            claims: claims,
-            expires: DateTime.UtcNow.AddMinutes(double.Parse(jwtSettings["ExpiresInMinutes"] ?? "60")),
-            signingCredentials: new SigningCredentials(key, SecurityAlgorithms.HmacSha256));
-        return new JwtSecurityTokenHandler().WriteToken(token);
-    }
+        Id = u.Id,
+        Username = u.Username,
+        Email = u.Email,
+        RegionCode = u.RegionCode,
+        AvatarUrl = u.AvatarUrl,
+        IsVerified = u.IsVerified,
+        CreatedAt = u.CreatedAt,
+        UpdatedAt = u.UpdatedAt
+    };
 }
